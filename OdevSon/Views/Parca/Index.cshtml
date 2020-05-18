@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_IndexAdmin.cshtml";
+}
+
+@using OdevSon.Models.ViewModel
+@model ParcaViewModel
+
+
+<h3>Parca Listesi</h3>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ParcaId</th>
+            <th>Parca</th>
+            <th>Tür</th>
+            <th>İşlemler</th>
+        </tr>
+
+    </thead>
+    <tbody style="">
+        @foreach (var item in Model.Parcalar)
+        {
+            <tr>
+                <td>@item.ParcaId</td>
+                <td>@item.ParcaAd</td>
+                <td>@item.ParcaTur</td>
+                <td><a href="/Parca/Duzenle/@item.ParcaId" class="btn btn-sm btn-primary">Düzenle</a> <a href="/Parca/Sil/@item.ParcaId" class="btn btn-sm btn-danger" onclick="return confirm('Bu Parcayi silmek istediğinizden emin misiniz?')">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="mdlAracEkle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Arac Ekleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(p => p.Prc.ParcaAd)
+                    @Html.TextBoxFor(p => p.Prc.ParcaAd, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(p => p.Prc.ParcaAd)
+                    <label id="lblParcaAdHata" style="display:none;color:red">Client Side Hata - Parca</label>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.Prc.ParcaAd)
+                    @Html.TextBoxFor(p => p.Prc.ParcaAd, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(p => p.Prc.ParcaAd)
+                    <label id="lblParcaTurHata" style="display:none;color:red">Client Side Hata - Tur</label>
+                </div>
+
+
+                <input type="submit" name="btnKaydet" value="Kaydet" class="btn btn-success" onclick="AracEkle()" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function BoslukKontrol() {
+            var hatayok = true;
+            if ($("#ParcaAd").val() == "" || $("#ParcaTur").val() == "") {
+                $("#lblParcaAdHata").show();
+                $("#lblParcaTurHata").show();
+                hatayok = false;
+            }
+            return hatayok;
+        }
+
+        function AracEkle() {
+            //yukardaki if else i al else aşağısı
+            $.ajax({
+                url: "/Parca/Ekle",
+                method: "Post",
+                data: {
+                    ParcaAd: $("#ParcaAd").val(),
+                    ParcaTur: $("#ParcaTur").val()
+                },
+                success: function (data) {
+                    alert("Parca Ekleme Başarılı");
+                    //console.log(data);
+                    if (data == "True") {
+                        alert("İşlem başarılı");
+                    } else {
+                        alert("Ekleme işleminde hata");
+                    }
+                }
+                //error
+            });
+        }
+    </script>
+}
+
+

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "PrcIndex";
+    Layout = "~/Views/Shared/_LayoutParc.cshtml";
+}
+
+<h2>Ürünlerimiz</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        
+            <th>Parca</th>
+            <th>Tür</th>
+         
+        </tr>
+
+    </thead>
+    <tbody style="">
+        @foreach (var item in Model.Parcalar)
+        {
+            <tr>
+                
+                <td>@item.ParcaAd</td>
+                <td>@item.ParcaTur</td>
+              
+            </tr>
+        }
+    </tbody>
+</table>

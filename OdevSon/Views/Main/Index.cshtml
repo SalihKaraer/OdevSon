@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@using OdevSon.Models.ViewModel
+@model OtoViewModel
+
+
+<h3>Arac Listesi</h3>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            
+            <th>Marka</th>
+            <th>Model</th>
+           
+        </tr>
+
+    </thead>
+    <tbody style="">
+        @foreach (var item in Model.Otomobil)
+        {
+            <tr>
+                
+                <td>@item.Marka</td>
+                <td>@item.Model</td>
+             
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

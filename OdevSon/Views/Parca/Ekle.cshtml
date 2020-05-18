@@ -1,0 +1,70 @@
+﻿
+
+@{
+    ViewBag.Title = "Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/EkleAdmin.cshtml";
+}
+
+@using OdevSon.Models
+@model Parca
+
+@{
+    ViewBag.Title = "Parca Ekleme İşlemi";
+}
+
+
+<h2>Parca Ekleme</h2>
+<div>
+
+    <div class="form-group">
+        @Html.LabelFor(p => p.ParcaAd)
+        @Html.TextBoxFor(p => p.ParcaAd, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.ParcaAd)
+        <label id="lblParcaAdHata" style="display:none;color:red">Client Side Hata - Parca Ad</label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.ParcaTur)
+        @Html.TextBoxFor(p => p.ParcaTur, new { @class = "form-control" })
+        @Html.ValidationMessageFor(p => p.ParcaTur)
+        <label id="lblParcaTurHata" style="display:none;color:red">Client Side Hata - Parca Tur</label>
+    </div>
+
+
+    <input type="submit" name="btnKaydet" value="Kaydet" class="btn btn-success" onclick="AracEkle()" />
+
+
+
+
+</div>
+@section scripts{
+    <script>
+        function BoslukKontrol() {
+            var hatayok = true;
+            if ($("#ParcaAd").val() == "" || $("#ParcaTur").val() == "") {
+                $("#lblParcaAdHata").show();
+                $("#lblParcaTurHata").show();
+                hatayok = false;
+            }
+            return hatayok;
+        }
+
+        function AracEkle() {
+            $.ajax({
+                url: "/Parca/Ekle",
+                method: "Post",
+                data: {
+                    ParcaAd: $("#ParcaAd").val(),
+                    ParcaTur: $("#ParcaTur").val()
+                },
+                success: function (data) {
+                    if (data == "True") {
+                        alert("İşlem başarılı-Parca Eklendi");
+                    } else {
+                        alert("Ekleme işleminde hata");
+                    }
+                }
+
+            });
+        }
+    </script>
+}

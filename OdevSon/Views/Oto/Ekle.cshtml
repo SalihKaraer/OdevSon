@@ -1,0 +1,74 @@
+﻿
+
+@{
+    ViewBag.Title = "Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/EkleAdmin.cshtml";
+}
+
+@using OdevSon.Models
+@model Oto
+
+@{
+    ViewBag.Title = "Arac Ekleme İşlemi";
+}
+
+
+<h2>Arac Ekleme</h2>
+
+
+
+
+<div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.Marka)
+        @Html.TextBoxFor(a => a.Marka, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Marka)
+        <label id="lblMarkaHata" style="display:none;color:red">Client Side Hata - Ad</label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Model)
+        @Html.TextBoxFor(a => a.Model, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Model)
+        <label id="lblModelHata" style="display:none;color:red">Client Side Hata - Soyad</label>
+    </div>
+
+
+    <input type="submit" name="btnKaydet" value="Kaydet" class="btn btn-success" onclick="AracEkle()" />
+
+
+
+
+</div>
+@section scripts{
+    <script>
+        function BoslukKontrol() {
+            var hatayok = true;
+            if ($("#Marka").val() == "" || $("#Model").val() == "") {
+                $("#lblMarkaHata").show();
+                $("#lblModelHata").show();
+                hatayok = false;
+            }
+            return hatayok;
+        }
+
+        function AracEkle() {
+            $.ajax({
+                url: "/Oto/Ekle",
+                method: "Post",
+                data: {
+                    Marka: $("#Marka").val(),
+                    Model: $("#Model").val()
+                },
+                success: function (data) {
+                    if (data == "True") {
+                        alert("İşlem başarılı");
+                    } else {
+                        alert("Ekleme işleminde hata");
+                    }
+                }
+
+            });
+        }
+    </script>
+}

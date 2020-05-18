@@ -1,0 +1,40 @@
+﻿@model OdevSon.Models.Kullanici
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LoginAdmin.cshtml";
+}
+<h2>Giriş Yap</h2>
+
+
+@using (Html.BeginForm("Login", "Security", FormMethod.Post))
+{
+
+<div class="form-group">
+    @Html.LabelFor(a => a.KullaniciAd)
+    @Html.TextBoxFor(a => a.KullaniciAd, new { @class = "form-control" })
+    <label id="lblAdHata" style="display:none;color:red">Kullanici adı alanı boş olamaz</label>
+</div>
+<div class="form-group">
+    @Html.LabelFor(a => a.Sifre)
+    @Html.TextBoxFor(a => a.Sifre, new { @class = "form-control" })
+    <label id="lblSifreHata" style="display:none;color:red">Şifre alanı boş olamaz</label>
+</div>
+
+    <input type="submit" name="btnKaydet" value="Giris" class="btn btn-success"onclick="return BoslukKontrol()" />
+}
+@section scripts{
+    <script>
+        function BoslukKontrol() {
+            var hatayok = true;
+            if ($("#KullaniciAd").val() == "" || $("#Sifre").val() == "") {
+                $("#lblAdHata").show();
+                $("#lblSifreHata").show();
+                hatayok = false;
+            }
+            return hatayok;
+
+          }
+    </script>
+    }
+   
